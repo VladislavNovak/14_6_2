@@ -10,13 +10,40 @@ size_t BOARD_SIZE = 3;
 enum Player { TIC = 'X', TAC = 'O' };
 enum GameStatus { IN_PROCESS, TIC_IS_WIN, TAC_IS_WIN, DRAW };
 
+void initialBoard(vector<vector<char>> &board) {
+    // вариант с пустой доской
+    for (auto &line : board) line.resize(BOARD_SIZE, ' ');
+
+    // вариант с почти заполненной
+    // board = {
+    //         { Player::TIC, Player::TAC, Player::TIC },
+    //         { Player::TAC, Player::TIC, ' ' },
+    //         { ' ', Player::TAC, ' ' },
+    // };
+}
+
+void printResults(GameStatus gameStatus) {
+    const vector<string> gameResults = { "in process", "player X won", "player Y won", "draw" };
+
+    cout << "\t\t*****************" << endl;
+    cout << "\t\t   " << gameResults[gameStatus] << endl;
+    cout << "\t\t   GAME IS OVER" << endl;
+    cout << "\t\t*****************" << endl;
+}
+
 // Графическое представление доски
 void displayBoard(const vector<vector<char>> &board) {
     cout << "\n\tPLAYER - 1 [X]\t PLAYER - 2 [O]\n" << endl;
 
     for (int line = 0; line < 3; ++line) {
         cout << "\t\t     |     |     \n\t\t  ";
-        for (int cell = 0; cell < 3; ++cell) cout << board[line][cell] << (cell < 2 ? "  |  " : " \n");
+        for (int cell = 0; cell < 3; ++cell) {
+            cout << board[line][cell] << (cell < 2 ? "  |  " : " \n");
+<<<<<<< HEAD
+        }
+=======
+        };
+>>>>>>> 232bbb9d59df555c0ad48c35bdfe1ee68b1081e1
         cout << (line < 2 ? "\t\t_____|_____|_____\n" : "\t\t     |     |     \n");
     }
     cout << endl;
@@ -28,10 +55,10 @@ void changeBoard(vector<vector<char>> &board, const char currentPlayer) {
         int choice[2] = { -1, -1 };
 
         for (int axis = 0; axis < 2; ++axis) {
-            string axisName = (axis == 0 ? "line" : "column");
+            string axisName = (axis == 0 ? "line:   " : "column: ");
             while(true) {
                 int place;
-                cout << "Player " << currentPlayer << ": enter number (1, 2, 3) to select " << axisName << ": ";
+                cout << "PLAYER [" << currentPlayer << "]: enter number (1, 2, 3) to select " << axisName;
                 std::cin >> place;
                 if (place == 1 || place == 2 || place == 3) {
                     choice[axis] = (place - 1);
@@ -100,11 +127,11 @@ GameStatus getCurrentGameStatus(const vector<vector<char>> &board) {
 }
 
 int main() {
-    bool gameStatus = GameStatus::IN_PROCESS;
+    GameStatus gameStatus = GameStatus::IN_PROCESS;
     char currentPlayer = Player::TIC;
     vector<vector<char>> board(BOARD_SIZE);
 
-    for (auto &line : board) line.resize(BOARD_SIZE, ' ');
+    initialBoard(board);
 
     cout << "GAME HAS BEGUN" << endl;
 
@@ -125,8 +152,5 @@ int main() {
         }
     }
 
-    cout << "************" << endl;
-    cout << "status: " << gameStatus << endl;
-    cout << "GAME IS OVER" << endl;
-    cout << "************" << endl;
+    printResults(gameStatus);
 }
