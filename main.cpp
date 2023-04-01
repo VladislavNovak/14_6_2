@@ -39,11 +39,7 @@ void displayBoard(const vector<vector<char>> &board) {
         cout << "\t\t     |     |     \n\t\t  ";
         for (int cell = 0; cell < 3; ++cell) {
             cout << board[line][cell] << (cell < 2 ? "  |  " : " \n");
-<<<<<<< HEAD
         }
-=======
-        };
->>>>>>> 232bbb9d59df555c0ad48c35bdfe1ee68b1081e1
         cout << (line < 2 ? "\t\t_____|_____|_____\n" : "\t\t     |     |     \n");
     }
     cout << endl;
