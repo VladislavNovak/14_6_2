@@ -1,3 +1,4 @@
+// Интересный момент: обработка для std::cin, чтобы введен был именно int
 #include <iostream>
 #include <vector>
 
@@ -14,7 +15,7 @@ void initialBoard(vector<vector<char>> &board) {
     // вариант с пустой доской
     for (auto &line : board) line.resize(BOARD_SIZE, ' ');
 
-    // вариант с почти заполненной
+    // для эксперимента: вариант с почти заполненной
     // board = {
     //         { Player::TIC, Player::TAC, Player::TIC },
     //         { Player::TAC, Player::TIC, ' ' },
@@ -45,17 +46,33 @@ void displayBoard(const vector<vector<char>> &board) {
     cout << endl;
 }
 
+// Возвращает введенную пользователем цифру
+int getUserDigit() {
+    int input = 0;
+
+    // Пока не будет введено нормальное число, выполняем цикл
+    while (!(std::cin >> input)){
+        cout << "Error. Enter a number: ";
+        // Сбрасываем коматозное состояние cin
+        std::cin.clear();
+        // Очищаем поток ввода
+        fflush(stdin);
+    }
+
+    return input;
+}
+
 // Пользовательский ввод после минимальной валидации меняет ячейку на доске
 void changeBoard(vector<vector<char>> &board, const char currentPlayer) {
     while(true) {
         int choice[2] = { -1, -1 };
 
         for (int axis = 0; axis < 2; ++axis) {
-            string axisName = (axis == 0 ? "line:   " : "column: ");
+            string axisName = (axis == 0 ? "line: " : "cell: ");
             while(true) {
-                int place;
                 cout << "PLAYER [" << currentPlayer << "]: enter number (1, 2, 3) to select " << axisName;
-                std::cin >> place;
+                int place = getUserDigit();
+
                 if (place == 1 || place == 2 || place == 3) {
                     choice[axis] = (place - 1);
                     break;
